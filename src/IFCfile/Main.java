@@ -97,7 +97,7 @@ public class Main {
 
 		
 	}
-	public static void modifIFC(ArrayList<ligneIFC> fichier){
+	public static void modifIFC(ArrayList<ligneIFC> fichier) throws IOException{
         ArrayList<ligneIFC> travail = new ArrayList<ligneIFC>();
 		Scanner sc = new Scanner(System.in);
         ArrayList<ligneIFC> tmp = new ArrayList<ligneIFC>();
@@ -107,15 +107,17 @@ public class Main {
 		int numeroligne=0;
 		int nbl=0;
         int cond1=0;
+        
+        Token token = new Token();
+       
         while( cond1==0){
-		System.out.println("A quel élément IFC voulez-vous ajouter un commentaire ?[IFCWALL, IFCBUILDING] \n");
+		System.out.println("A quel élément IFC voulez-vous ajouter un commentaire ? "+token.getTokens() +"\n");
 		str=sc.next();
-		if(str.equals("IFCWALL")|| str.equals("IFCBUILDING")){
+		if(token.containToken(str)){
 			cond1++;
 		}else{
 			System.out.println("Saisie incorrecte, vous avez le choix entre les élement entre crochet");
 		}
-
         }
 
 		
@@ -194,7 +196,7 @@ public class Main {
 		
 	}
 	
-	public static void modifIFC2(ArrayList<ligneIFC> fichier,ArrayList<Facade> listeFacade){
+	public static void modifIFC2(ArrayList<ligneIFC> fichier,ArrayList<Facade> listeFacade) throws IOException{
         ArrayList<ligneIFC> travail = new ArrayList<ligneIFC>();
 		Scanner sc = new Scanner(System.in);
         ArrayList<ligneIFC> tmp = new ArrayList<ligneIFC>();
@@ -260,10 +262,13 @@ public class Main {
     	
     	System.out.println("--------- Choix de l'élement IFC à modifié ----------");
     	System.out.println();
+    	
+    	Token token = new Token();
+    	
         while( cond==0){
-		System.out.println("A quel élément IFC voulez-vous ajouter un commentaire ?[IFCWALL, IFCBUILDING] \n");
+		System.out.println("A quel élément IFC voulez-vous ajouter un commentaire ?" + token.getTokens() + "\n");
 		str=sc.next();
-		if(str.equals("IFCWALL")|| str.equals("IFCBUILDING")){
+		if(token.containToken(str)){
 			cond++;
 		}else{
 			System.out.println("Saisie incorrecte, vous avez le choix entre les élement entre crochet");
