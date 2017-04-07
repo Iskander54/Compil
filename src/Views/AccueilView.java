@@ -99,7 +99,6 @@ public class AccueilView extends ImagePanel implements Observer {
 		PartRight.setOpaque(false);
 		
 		// Panel de gauche
-		JButton labR = new JButton("bla bla bla");
 		PartRight.setOpaque(true);
 		DefaultListModel<String> model = new DefaultListModel<>();
 		for(int i=1;i<150;i++){
@@ -115,8 +114,6 @@ public class AccueilView extends ImagePanel implements Observer {
 		JScrollPane scrollRight = new JScrollPane(list);
 		JScrollPane scrollLeft = new JScrollPane(list1);
 
-		PartRight.add(labR);
-		scrollRight.add(PartRight);
 		panGrid.add(scrollRight);
 		panGrid.add(scrollLeft);
 		// Panel de droite
