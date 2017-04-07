@@ -32,8 +32,7 @@ public class Main {
 		return max;
 	}
 	
-	public static String[] readerIFC(ArrayList<ligneIFC> file,String debut, String fin,String ifcpath) throws IOException{
-		FileReader fileIFC = new FileReader(ifcpath);
+	public static String[] readerIFC(ArrayList<ligneIFC> file,String debut, String fin,FileReader fileIFC) throws IOException{
         BufferedReader bfileIFC = new BufferedReader(fileIFC);
         String ligneIFC = bfileIFC.readLine();
         int i=0;
@@ -83,7 +82,7 @@ public class Main {
 	}
 	
 	
-	public static void loader(String ifcpath,String debut,String fin,ArrayList<ligneIFC> fichier ) throws IOException{
+	public static void loader(FileReader ifcpath,String debut,String fin,ArrayList<ligneIFC> fichier ) throws IOException{
 
         try {
         	readerIFC(fichier,debut,fin,ifcpath);
@@ -404,16 +403,17 @@ public class Main {
 		   */
 		   fichierCSV.close();    
 		   System.out.println("Liste des commentaires téléchargée avec succès !"+"\n");
+	
 		
 		
-		
+	
 	}
 	
 	
 
 		
 	
-	public static void main(String args[]) throws IOException{
+	public static void main(String args[]) throws IOException{/*
 		ArrayList<Facade> listeFacade = new ArrayList<Facade>();
 		ArrayList<ligneIFC> fichier = new ArrayList<ligneIFC>();
 		String debut="";
@@ -445,7 +445,7 @@ public class Main {
 		IFCpath=sc1.nextLine();
 		
 		//String IFCpath="/Users/AlexLo/Downloads/ITE+.IFC";
-		en_tete=readerIFC(fichier,debut,fin,IFCpath);
+		/*en_tete=readerIFC(fichier,debut,fin,IFCpath);
 		System.out.println(debut);
 		System.out.println(fin);
 		path++;
@@ -492,8 +492,11 @@ public class Main {
 		
 		
 	
-	}
+	
 
 
-	}
+	}else{}
+		}
+	}*/
+}
 }
