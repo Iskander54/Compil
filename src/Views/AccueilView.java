@@ -22,9 +22,11 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 
 import Controlers.Controler;
 import javax.swing.JSplitPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.JList;
 
 public class AccueilView extends ImagePanel implements Observer {
@@ -99,16 +101,26 @@ public class AccueilView extends ImagePanel implements Observer {
 		// Panel de gauche
 		JButton labR = new JButton("bla bla bla");
 		PartRight.setOpaque(true);
-		JScrollBar scrollRight = new JScrollBar();
+		DefaultListModel<String> model = new DefaultListModel<>();
+		for(int i=1;i<150;i++){
+			model.addElement("droite pd n° "+i);
+		}
+		JList<String> list = new JList<>( model );
+		JList<String> list1 = new JList<>( model );
+
+
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.setLayoutOrientation(JList.VERTICAL);
+		list.setVisibleRowCount(-1);
+		JScrollPane scrollRight = new JScrollPane(list);
+		JScrollPane scrollLeft = new JScrollPane(list1);
+
 		PartRight.add(labR);
 		scrollRight.add(PartRight);
 		panGrid.add(scrollRight);
-		
+		panGrid.add(scrollLeft);
 		// Panel de droite
-		JScrollBar scrollLeft = new JScrollBar();
-		PartLeft.add(scrollLeft,BorderLayout.CENTER);
-		PartLeft.add(test2,BorderLayout.NORTH);
-		
+
 		add(panGrid,BorderLayout.CENTER);
 
 		
