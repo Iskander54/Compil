@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class ligneIFC {
 	String hashTag;
 	String nomFonction;
-	ArrayList<String> argument=new ArrayList<String>();
+	public ArrayList<String> argument=new ArrayList<String>();
 	
 	public String getHashTag() {
 		return hashTag;
@@ -109,6 +109,10 @@ public class ligneIFC {
 	}
 	public String remove(int index) {
 		return argument.remove(index);
+	}
+	@Override
+	public String toString() {
+		return "ligneIFC [hashTag=" + hashTag + ", nomFonction=" + nomFonction + ", argument=" + argument + "]";
 	}
 	
 	
