@@ -1,45 +1,36 @@
 package Views;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
-import Interface.Observable;
-import Interface.Observer;
-
-import javax.swing.ButtonModel;
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 
 import Controlers.Controler;
 import IFCfile.Commentaire;
 import IFCfile.Facade;
+import IFCfile.Token;
 import IFCfile.ligneIFC;
-
-import javax.swing.JSplitPane;
-import javax.swing.ListSelectionModel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
+import Interface.Observer;
 
 public class AccueilView extends ImagePanel implements Observer {
+	
 	JButton browser = new JButton("Importer le fichier IFC");
 	JButton handwrinting= new JButton("Ecrire Commentaire à la main");
+	Boolean commentManualy = false;
 	JButton browsercomm = new JButton("Importer les commentaires");
 	JButton reset = new JButton("Reset");
 	JButton match = new JButton("Lier");
@@ -66,8 +57,6 @@ public class AccueilView extends ImagePanel implements Observer {
 	JList<String> list;
 	JList<String> list1;
 
-
-
 	
 
 
@@ -75,10 +64,10 @@ public class AccueilView extends ImagePanel implements Observer {
 		
 		super("./images/fond");
 		controler = c;
-
-		browser.setName("part1");
-		browser.setOpaque(false);
+		browser.setName("part4");
+		browser.setBackground(Color.WHITE);
 		browser.setContentAreaFilled(false);
+		browser.setOpaque(true);
 		browser.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -90,10 +79,16 @@ public class AccueilView extends ImagePanel implements Observer {
 					System.out.println(entete[1]+entete[0]);
 
 					DefaultListModel<String> model = new DefaultListModel<>();
+					
+					Token t = new Token();
+					
 					for(ligneIFC j : fichier){
-						model.addElement("Fonction : "+j.getNomFonction()+" Arguments :"+j.getArgument());
+						if(t.containToken(j.getNomFonction())) // PERMET DE VERIFIER SI LA LIGNE POSSEDE UN DES TOKENS
+							model.addElement("Fonction : "+j.getNomFonction()+" Arguments :"+j.getArgument());
 						
 					}
+					
+					
 					
 					list = new JList<>( model );
 					list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -105,6 +100,12 @@ public class AccueilView extends ImagePanel implements Observer {
 						System.out.println("all guuuuud");
 						update();
 						ifc_file_load++;
+						
+						// On change le boutton
+						commentManualy = true;
+						handwrinting.setBackground(Color.WHITE);
+						handwrinting.setEnabled(true);
+						// On change le boutton 
 						
 					}else{
 						JOptionPane.showMessageDialog(frame, " Un fichier IFC à déjà été charger. Si vous voulez le changer, cliquer sur resets");
@@ -118,9 +119,10 @@ public class AccueilView extends ImagePanel implements Observer {
 			}
 		});
 		
-		browsercomm.setName("part2");
-		browsercomm.setOpaque(false);
+		browsercomm.setName("part4");
+		browsercomm.setBackground(Color.WHITE);
 		browsercomm.setContentAreaFilled(false);
+		browsercomm.setOpaque(true);
 		browsercomm.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -170,13 +172,35 @@ public class AccueilView extends ImagePanel implements Observer {
 			});
 		
 		handwrinting.setName("part3");
-		handwrinting.setOpaque(false);
+
+		handwrinting.setBackground(Color.LIGHT_GRAY);
 		handwrinting.setContentAreaFilled(false);
-		handwrinting.addMouseListener(null);
+		handwrinting.setOpaque(true);
+		
+		handwrinting.setEnabled(false);
+		
+		
+		handwrinting.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if(commentManualy){
+					/*
+					 * On ajoute la vue de commentaire manuelle au model
+					 */
+					CommentaireView f = new CommentaireView();
+					f.update();
+				}
+			}
+			
+		});
+		
+		
 		
 		reset.setName("part4");
-		reset.setOpaque(false);
+		reset.setBackground(Color.WHITE);
 		reset.setContentAreaFilled(false);
+		reset.setOpaque(true);
+		
+		
 		reset.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				fichier.clear();
@@ -190,14 +214,13 @@ public class AccueilView extends ImagePanel implements Observer {
 			
 		});
 		
-		match.setName("part5");
-		match.setOpaque(false);
+		match.setName("part4");
+		match.setBackground(Color.WHITE);
 		match.setContentAreaFilled(false);
+		match.setOpaque(true);
 		match.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e){
 				try{
-		           
-		        
 					
 				System.out.println(fichier.get(list.getSelectedIndex()).getNomFonction());
 				System.out.println(Controler.indexcom(listeFacade, list1.getSelectedIndex()-2).getCommentaire());
@@ -260,13 +283,7 @@ public class AccueilView extends ImagePanel implements Observer {
 		add(pan,BorderLayout.NORTH);
 		
 		panGrid.setOpaque(false);
-		add(panGrid,BorderLayout.CENTER);
-
-		
-
-		
-
-		
+		add(panGrid,BorderLayout.CENTER);	
 
 	}
 	

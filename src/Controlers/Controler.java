@@ -236,7 +236,57 @@ public class Controler {
 			return com;
 		}
 	
+	// Fonction qui sera appelé lorsque l'utilisateur veut modifier un commentaire manuelement
+	public static void modifIFCManuellement(ArrayList<ligneIFC> fichier,int valIFC, String property,String value) throws IOException{
+        ArrayList<ligneIFC> travail = new ArrayList<ligneIFC>();
+        ArrayList<ligneIFC> tmp = new ArrayList<ligneIFC>();
+		String str=null;
+		String tmp1 = null;
+		ligneIFC modifline=null;
+    	Token token = new Token();
+		String Hstr=fichier.get(valIFC).getHashTag();
+		System.out.println(fichier.get(valIFC).toString());
+        for (ligneIFC e : fichier){
+        	if (e.getNomFonction().contains("IFCRELDEFINESBYPROPERTIES")){
+        		tmp.add(e);
+        	}
+        }
+		 for (ligneIFC l:tmp){
+	        	for (String s: l.argument){
 
+	        		if(s.contains("("+Hstr+")")){
+	        			tmp1=l.getArgument().get(l.argument.size()-1);
+	        			System.out.println(tmp1);
+	        		}
+	        	}
+	        }
+	        for(ligneIFC t : fichier){
+	        	if(t.getHashTag().contains(tmp1)){
+	        		modifline=t;
+	        		System.out.println(modifline);
+	        	}
+	        }
+    
+        fichier.remove(modifline);
+        ArrayList<String> commentaireliste = new ArrayList<String>();
+        commentaireliste.add("'"+property+"'");
+        commentaireliste.add("'"+value+"'");
+        commentaireliste.add("IFCTEXT('"+value+"')");
+        String hash="#"+Integer.toString(maxHashTag(fichier)+1);
+        ligneIFC newline = new ligneIFC(hash,"IFCPROPERTYSINGLEVALUE",commentaireliste);
+        
+        String lastArg = modifline.getArgument().get(modifline.getArgument().size()-1);
+        lastArg = lastArg.substring(0, lastArg.length()-1);
+        lastArg = lastArg+","+hash+")";
+        modifline.remove(modifline.getArgument().size()-1);
+        modifline.add(lastArg);
+        fichier.add(newline);
+        fichier.add(modifline);
+        System.out.println(newline.toString());
+        System.out.println(modifline.toString());
+
+		
+	}
 		
 	
 
