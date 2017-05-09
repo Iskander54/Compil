@@ -41,6 +41,7 @@ public class AccueilView extends ImagePanel implements Observer {
 	JPanel PartRight = new JPanel();
 	int csv_file_load=0;
 	int ifc_file_load=0;
+	int indice=0;
 
 	Controler controler;
 	private Component frame;
@@ -48,6 +49,8 @@ public class AccueilView extends ImagePanel implements Observer {
 	
 	ArrayList<Facade> listeFacade = new ArrayList<Facade>();
 	ArrayList<ligneIFC> fichier = new ArrayList<ligneIFC>();
+	ArrayList<String> tmp = new ArrayList<String>();
+
 	String debut="";
 	String fin="";
 	String []entete;
@@ -68,6 +71,7 @@ public class AccueilView extends ImagePanel implements Observer {
 		browser.setBackground(Color.WHITE);
 		browser.setContentAreaFilled(false);
 		browser.setOpaque(true);
+		
 		browser.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -81,11 +85,14 @@ public class AccueilView extends ImagePanel implements Observer {
 					DefaultListModel<String> model = new DefaultListModel<>();
 					
 					Token t = new Token();
+				
 					
 					for(ligneIFC j : fichier){
-						if(t.containToken(j.getNomFonction())) // PERMET DE VERIFIER SI LA LIGNE POSSEDE UN DES TOKENS
-							model.addElement("Fonction : "+j.getNomFonction()+" Arguments :"+j.getArgument());
 						
+						tmp.add("Fonction : "+j.getNomFonction()+" Arguments :"+j.getArgument());
+						if(t.containToken(j.getNomFonction())){ // PERMET DE VERIFIER SI LA LIGNE POSSEDE UN DES TOKENS
+							model.addElement("Fonction : "+j.getNomFonction()+" Arguments :"+j.getArgument());
+						}
 					}
 					
 					
@@ -182,12 +189,19 @@ public class AccueilView extends ImagePanel implements Observer {
 		
 		handwrinting.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
+				try{
 				if(commentManualy){
 					/*
 					 * On ajoute la vue de commentaire manuelle au model
 					 */
-					CommentaireView f = new CommentaireView();
+					
+					indice=Controler.indiceligne(tmp,list.getModel().getElementAt(list.getSelectedIndex()));
+					CommentaireView f = new CommentaireView(fichier,indice, tmp, entete,debut,fin, path, list);
 					f.update();
+				}
+				}catch(java.lang.ArrayIndexOutOfBoundsException j){
+					JOptionPane.showMessageDialog(frame, " Veuillez selectionner un élément IFC");
+
 				}
 			}
 			
@@ -222,9 +236,11 @@ public class AccueilView extends ImagePanel implements Observer {
 			public void mouseClicked(MouseEvent e){
 				try{
 					
-				System.out.println(fichier.get(list.getSelectedIndex()).getNomFonction());
+				//System.out.println(fichier.get(list.getSelectedIndex()).getNomFonction());
+				System.out.println(fichier.get(Controler.indiceligne(tmp,list.getModel().getElementAt(list.getSelectedIndex()))).getNomFonction());
 				System.out.println(Controler.indexcom(listeFacade, list1.getSelectedIndex()-2).getCommentaire());
-				Controler.modifIFC2(fichier, listeFacade, list.getSelectedIndex(), list1.getSelectedIndex()-2);
+				indice=Controler.indiceligne(tmp,list.getModel().getElementAt(list.getSelectedIndex()));
+				Controler.modifIFC2(fichier, listeFacade,Controler.indiceligne(tmp,list.getModel().getElementAt(list.getSelectedIndex())), list1.getSelectedIndex()-2);
 				panGrid.remove(scrollLeft);
 				list.removeAll();
 				list.clearSelection();
@@ -235,16 +251,21 @@ public class AccueilView extends ImagePanel implements Observer {
 					File IFCfile=new File(path);
 					entete=Controler.readerIFC(fichier, debut, fin,IFCfile );
 					System.out.println(entete[1]+entete[0]);
+					
 
 					DefaultListModel<String> model = new DefaultListModel<>();
+
 					
-					list = new JList<>( model );
+					Token t = new Token();
+				
 					for(ligneIFC j : fichier){
-						model.addElement("Fonction : "+j.getNomFonction()+" Arguments :"+j.getArgument());
 						
+						if(t.containToken(j.getNomFonction())){ // PERMET DE VERIFIER SI LA LIGNE POSSEDE UN DES TOKENS
+							model.addElement("Fonction : "+j.getNomFonction()+" Arguments :"+j.getArgument());
+						}
 					}
 
-
+					
 					list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 					list.setLayoutOrientation(JList.VERTICAL);
 					list.setVisibleRowCount(-1);

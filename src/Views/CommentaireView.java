@@ -1,26 +1,58 @@
 package Views;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import Controlers.Controler;
+import IFCfile.ligneIFC;
 
-	public class CommentaireView extends JFrame {
+
+	public class CommentaireView {
 		
-		//SearchModel m ;
+		JFrame frame1 = new JFrame();
 		
-		public CommentaireView(){
+		ArrayList<ligneIFC> fichier;
+		int indice;
+		ArrayList<String> tmp;
+		String []entete = null;
+		String debut="";
+		String fin="";
+		String path;
+		JList<String> list;
+		private Component frame;
+		
+		public CommentaireView(ArrayList<ligneIFC> fichier, int indice, ArrayList<String> tmp, String []entete, String debut, String fin, String path, JList<String> list){
 			
-            this.setLocationRelativeTo(null);
-            this.setTitle("Beta Test");
-            this.setVisible(true);
-            this.setSize(550, 160);
+			this.fichier = fichier;
+			this.indice = indice;
+			this.tmp = tmp;
+			this.entete = entete;
+			this.debut = debut;
+			this.path = path;
+			this.list = list;
+			
+			
+			
+            frame1.setLocationRelativeTo(null);
+            frame1.setTitle("Beta Test");
+            frame1.setVisible(true);
+            frame1.setSize(550, 160);
+            
+
+            
             
             JPanel pan = new JPanel();
             
@@ -32,7 +64,7 @@ import javax.swing.JTextField;
             
             JButton valider = new JButton("Add comment");
             
-            this.add(pan);
+            frame1.add(pan);
             
             // Commentaire property
             pan.add(prop,BorderLayout.NORTH);
@@ -54,7 +86,19 @@ import javax.swing.JTextField;
     			public void mouseClicked(MouseEvent e) {
     				String propertyText = prop.getText();
     				String valueText = val.getText();
-    				
+    				try {
+    					System.out.println(indice);
+						Controler.modifIFCManuellement(fichier, Controler.indiceligne(tmp, list.getModel().getElementAt(list.getSelectedIndex())), propertyText, valueText);
+						Controler.ecriture(fichier, entete[0],entete[1],path);
+						File IFCfile=new File(path);
+						Controler.readerIFC(fichier, debut, fin,IFCfile );
+						JOptionPane.showMessageDialog(frame1, "Ecriture dans le fichier IFC : Succes");
+						frame1.dispose (); 
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+						JOptionPane.showMessageDialog(frame1, "Ecriture dans le fichier IFC : Echec");
+					}
     			}
     			
     		});
@@ -62,8 +106,8 @@ import javax.swing.JTextField;
 		}
 		public void update()
 		{
-			this.setVisible(true);
-			this.revalidate();
+			frame1.setVisible(true);
+			frame1.revalidate();
 		}
 	}
 

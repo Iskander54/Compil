@@ -287,6 +287,16 @@ public class Controler {
 
 		
 	}
+	
+	public static int indiceligne(ArrayList<String> list,String search){
+		for(int i=0;i<list.size();i++){
+			if(list.get(i).equals(search))
+				return i;
+		}
+		return -1;
+
+		
+	}
 		
 	
 
