@@ -7,7 +7,12 @@ package IFCfile;
 import java.awt.*;
 
 public class cube2D extends Frame {
- // définition de la police d'affichage des textes
+ /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+// définition de la police d'affichage des textes
  private Font font = new Font("serif", Font.ITALIC + Font.BOLD, 16);
 
  // les points du cube en 3D centre en 0, de coté 2

@@ -8,11 +8,6 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 public class Back{
 
@@ -40,7 +35,8 @@ public class Back{
         
         // On parcours les lignes
         while(ligneIFC!=null) {
-            Scanner scIFC = new Scanner(ligneIFC);
+            @SuppressWarnings("resource")
+			Scanner scIFC = new Scanner(ligneIFC);
             scIFC.useDelimiter(" ");
 
 
@@ -97,6 +93,7 @@ public class Back{
 
 		
 	}
+	@SuppressWarnings("resource")
 	public static void modifIFC(ArrayList<ligneIFC> fichier) throws IOException{
         ArrayList<ligneIFC> travail = new ArrayList<ligneIFC>();
 		Scanner sc = new Scanner(System.in);
@@ -139,7 +136,7 @@ public class Back{
             }
             
             System.out.println("Quel est l'indice du mur auquel voulez-vous ajouter un commentaire ? \n");
-            Scanner sc1 = new Scanner(System.in);
+			Scanner sc1 = new Scanner(System.in);
             try{
     		numeroligne=sc1.nextInt();
     		if(numeroligne>0 && numeroligne<=nbl){
@@ -196,6 +193,7 @@ public class Back{
 		
 	}
 	
+	@SuppressWarnings("resource")
 	public static void modifIFC2(ArrayList<ligneIFC> fichier,ArrayList<Facade> listeFacade) throws IOException{
         ArrayList<ligneIFC> travail = new ArrayList<ligneIFC>();
 		Scanner sc = new Scanner(System.in);
@@ -214,7 +212,7 @@ public class Back{
     	System.out.println("--------- Choix du commentaire ----------");
     	System.out.println();
     	do{
-    		Scanner sc5 = new Scanner(System.in);
+			Scanner sc5 = new Scanner(System.in);
 		System.out.println("Quelle est le numéro de la façade concernée ?");
 		for (Facade f : listeFacade){
 			   System.out.println(f.nom);

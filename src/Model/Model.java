@@ -4,19 +4,6 @@ import java.util.ArrayList;
 
 import Interface.Observer;
 import Main.Fenetre;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-
-
-import Interface.Observable;
-import Interface.Observer;
-import Interface.Observer;
-import Main.Fenetre;
 
 public class Model {
 	Fenetre f;

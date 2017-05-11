@@ -1,7 +1,6 @@
 package Views;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -32,8 +31,6 @@ import IFCfile.ligneIFC;
 		String fin="";
 		String path;
 		JList<String> list;
-		private Component frame;
-		
 		public CommentaireView(ArrayList<ligneIFC> fichier, int indice, ArrayList<String> tmp, String []entete, String debut, String fin, String path, JList<String> list){
 			
 			this.fichier = fichier;
@@ -84,8 +81,8 @@ import IFCfile.ligneIFC;
 
             valider.addMouseListener(new MouseAdapter() {
     			public void mouseClicked(MouseEvent e) {
-    				String propertyText = prop.getText();
-    				String valueText = val.getText();
+    				String propertyText = textFieldProperty.getText();
+    				String valueText = textFieldValue.getText();
     				try {
     					System.out.println(indice);
 						Controler.modifIFCManuellement(fichier, Controler.indiceligne(tmp, list.getModel().getElementAt(list.getSelectedIndex())), propertyText, valueText);
@@ -93,6 +90,7 @@ import IFCfile.ligneIFC;
 						File IFCfile=new File(path);
 						Controler.readerIFC(fichier, debut, fin,IFCfile );
 						JOptionPane.showMessageDialog(frame1, "Ecriture dans le fichier IFC : Succes");
+
 						frame1.dispose (); 
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block

@@ -8,11 +8,6 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 public class Main {
 
@@ -32,6 +27,7 @@ public class Main {
 		return max;
 	}
 	
+	@SuppressWarnings("resource")
 	public static String[] readerIFC(ArrayList<ligneIFC> file,String debut, String fin,FileReader fileIFC) throws IOException{
         BufferedReader bfileIFC = new BufferedReader(fileIFC);
         String ligneIFC = bfileIFC.readLine();
@@ -96,6 +92,7 @@ public class Main {
 
 		
 	}
+	@SuppressWarnings("resource")
 	public static void modifIFC(ArrayList<ligneIFC> fichier) throws IOException{
         ArrayList<ligneIFC> travail = new ArrayList<ligneIFC>();
 		Scanner sc = new Scanner(System.in);
@@ -195,6 +192,7 @@ public class Main {
 		
 	}
 	
+	@SuppressWarnings("resource")
 	public static void modifIFC2(ArrayList<ligneIFC> fichier,ArrayList<Facade> listeFacade) throws IOException{
         ArrayList<ligneIFC> travail = new ArrayList<ligneIFC>();
 		Scanner sc = new Scanner(System.in);
@@ -413,7 +411,7 @@ public class Main {
 
 		
 	
-	public static void main(String args[]) throws IOException{/*
+	/*public static void main(String args[]) throws IOException{
 		ArrayList<Facade> listeFacade = new ArrayList<Facade>();
 		ArrayList<ligneIFC> fichier = new ArrayList<ligneIFC>();
 		String debut="";
@@ -499,4 +497,4 @@ public class Main {
 		}
 	}*/
 }
-}
+

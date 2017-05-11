@@ -2,8 +2,6 @@ package Main;
 
 import javax.swing.JFrame;
 
-import Model.Model;
-import Views.*;
 import javax.swing.JButton;
 import java.awt.BorderLayout;
 
@@ -11,6 +9,10 @@ public class Fenetre extends JFrame {
 	
 	//SearchModel m ;
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public Fenetre()
 	{
 		// Fenetre

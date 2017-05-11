@@ -1,7 +1,6 @@
 package Main;
 
 import Controlers.Controler;
-import Interface.Observer;
 import Model.Model;
 import Views.AccueilView;
 

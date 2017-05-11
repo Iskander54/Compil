@@ -10,9 +10,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-
 import IFCfile.Commentaire;
 import IFCfile.Facade;
 import IFCfile.Token;
@@ -40,13 +37,15 @@ public class Controler {
 	public static String[] readerIFC(ArrayList<ligneIFC> file,String debut, String fin,File fileR) throws IOException{
 		file.clear();
 		FileReader fileIFC = new FileReader(fileR);
-        BufferedReader bfileIFC = new BufferedReader(fileIFC);
+        @SuppressWarnings("resource")
+		BufferedReader bfileIFC = new BufferedReader(fileIFC);
         String ligneIFC = bfileIFC.readLine();
         int i=0;
         
         // On parcours les lignes
         while(ligneIFC!=null) {
-            Scanner scIFC = new Scanner(ligneIFC);
+            @SuppressWarnings("resource")
+			Scanner scIFC = new Scanner(ligneIFC);
             scIFC.useDelimiter(" ");
 
 
@@ -151,14 +150,26 @@ public class Controler {
 	
 	}
 	public static void modifIFC2(ArrayList<ligneIFC> fichier,ArrayList<Facade> listeFacade,int valIFC, int valcom) throws IOException{
-        ArrayList<ligneIFC> travail = new ArrayList<ligneIFC>();
+        new ArrayList<ligneIFC>();
         ArrayList<ligneIFC> tmp = new ArrayList<ligneIFC>();
-		String str=null;
 		String tmp1 = null;
 		ligneIFC modifline=null;
-    	Token token = new Token();
+    	new Token();
 		String Hstr=fichier.get(valIFC).getHashTag();
-		System.out.println(fichier.get(valIFC).toString());
+		//System.out.println(fichier.get(valIFC).toString());
+        
+        Commentaire commentaire=indexcom(listeFacade, valcom);
+        
+        String com1=commentaire.getCommentaire();
+        String com=commentaire.getCommentaire();
+      //  System.out.println(com1+com);
+        ArrayList<String> commentaireliste = new ArrayList<String>();
+        commentaireliste.add("'"+com1+"'");
+        commentaireliste.add("'"+com1+"'");
+        commentaireliste.add("IFCTEXT('"+com+"')");
+        String hash="#"+Integer.toString(maxHashTag(fichier)+1);
+        ligneIFC newline = new ligneIFC(hash,"IFCPROPERTYSINGLEVALUE",commentaireliste);
+        
         for (ligneIFC e : fichier){
         	if (e.getNomFonction().contains("IFCRELDEFINESBYPROPERTIES")){
         		tmp.add(e);
@@ -173,6 +184,7 @@ public class Controler {
 	        		}
 	        	}
 	        }
+		 if(tmp1!=null){
 	        for(ligneIFC t : fichier){
 	        	if(t.getHashTag().contains(tmp1)){
 	        		modifline=t;
@@ -182,19 +194,7 @@ public class Controler {
 
         
         fichier.remove(modifline);
-        
-        Commentaire commentaire=indexcom(listeFacade, valcom);
-        
-        String com1=commentaire.getCommentaire();
-        String com=commentaire.getCommentaire();
-        System.out.println(com1+com);
-        ArrayList<String> commentaireliste = new ArrayList<String>();
-        commentaireliste.add("'"+com1+"'");
-        commentaireliste.add("'"+com1+"'");
-        commentaireliste.add("IFCTEXT('"+com+"')");
-        String hash="#"+Integer.toString(maxHashTag(fichier)+1);
-        ligneIFC newline = new ligneIFC(hash,"IFCPROPERTYSINGLEVALUE",commentaireliste);
-        
+
         String lastArg = modifline.getArgument().get(modifline.getArgument().size()-1);
         lastArg = lastArg.substring(0, lastArg.length()-1);
         lastArg = lastArg+","+hash+")";
@@ -204,6 +204,42 @@ public class Controler {
         fichier.add(modifline);
         System.out.println(newline.toString());
         System.out.println(modifline.toString());
+        
+	 }else{
+		 String id1= tmp.get(0).getArgument().get(0);
+		 String hashRELDEFINES="#"+Integer.toString(maxHashTag(fichier)+2);
+		 String hashPROPERTYSET="#"+Integer.toString(maxHashTag(fichier)+3);
+		 String id1_propertyset = null;
+
+		 ArrayList<String> ArgIFCPROPERTYSET = new ArrayList<String>();
+		 ArrayList<String> ArgIFCRELDEFINES = new ArrayList<String>();
+		 ArgIFCRELDEFINES.add(id1);
+		 ArgIFCRELDEFINES.add("#2");
+		 ArgIFCRELDEFINES.add("$");
+		 ArgIFCRELDEFINES.add("$");
+		 ArgIFCRELDEFINES.add("("+Hstr+")");
+		 ArgIFCRELDEFINES.add(hashPROPERTYSET);
+		 ligneIFC lines_RELDEFINES = new ligneIFC(hashRELDEFINES,"IFCRELDEFINESBYPROPERTIES",ArgIFCRELDEFINES);
+		 
+		 for (ligneIFC e : fichier){
+	        	if (e.getNomFonction().contains("IFCPROPERTYSET")){
+	        		id1_propertyset=e.getArgument().get(0);
+	        		break;
+	        	}
+	        	}
+		 ArgIFCPROPERTYSET.add(id1_propertyset);
+		 ArgIFCPROPERTYSET.add("#2");
+		 ArgIFCPROPERTYSET.add("'Propriete'");
+		 ArgIFCPROPERTYSET.add("$");
+		 ArgIFCPROPERTYSET.add("("+hash+")");
+		 ligneIFC lines_PROPERTYSET= new ligneIFC(hashPROPERTYSET,"IFCPROPERTYSET",ArgIFCPROPERTYSET);
+		 
+		 
+		 fichier.add(lines_RELDEFINES);
+		 fichier.add(lines_PROPERTYSET);
+		 fichier.add(newline);
+
+	 }
 
 		
 	}
@@ -238,14 +274,19 @@ public class Controler {
 	
 	// Fonction qui sera appelé lorsque l'utilisateur veut modifier un commentaire manuelement
 	public static void modifIFCManuellement(ArrayList<ligneIFC> fichier,int valIFC, String property,String value) throws IOException{
-        ArrayList<ligneIFC> travail = new ArrayList<ligneIFC>();
+        new ArrayList<ligneIFC>();
         ArrayList<ligneIFC> tmp = new ArrayList<ligneIFC>();
-		String str=null;
 		String tmp1 = null;
 		ligneIFC modifline=null;
-    	Token token = new Token();
+    	new Token();
 		String Hstr=fichier.get(valIFC).getHashTag();
 		System.out.println(fichier.get(valIFC).toString());
+		 ArrayList<String> commentaireliste = new ArrayList<String>();
+	        commentaireliste.add("'"+property+"'");
+	        commentaireliste.add("'"+value+"'");
+	        commentaireliste.add("IFCTEXT('"+value+"')");
+	        String hash="#"+Integer.toString(maxHashTag(fichier)+1);
+	        ligneIFC newline = new ligneIFC(hash,"IFCPROPERTYSINGLEVALUE",commentaireliste);
         for (ligneIFC e : fichier){
         	if (e.getNomFonction().contains("IFCRELDEFINESBYPROPERTIES")){
         		tmp.add(e);
@@ -260,21 +301,15 @@ public class Controler {
 	        		}
 	        	}
 	        }
+		 if(tmp1!=null){
 	        for(ligneIFC t : fichier){
-	        	if(t.getHashTag().contains(tmp1)){
+	        	if(t.getHashTag().equals(tmp1)){
 	        		modifline=t;
-	        		System.out.println(modifline);
+	        		//System.out.println(modifline);
 	        	}
 	        }
-    
-        fichier.remove(modifline);
-        ArrayList<String> commentaireliste = new ArrayList<String>();
-        commentaireliste.add("'"+property+"'");
-        commentaireliste.add("'"+value+"'");
-        commentaireliste.add("IFCTEXT('"+value+"')");
-        String hash="#"+Integer.toString(maxHashTag(fichier)+1);
-        ligneIFC newline = new ligneIFC(hash,"IFCPROPERTYSINGLEVALUE",commentaireliste);
-        
+		 
+        fichier.remove(modifline);   
         String lastArg = modifline.getArgument().get(modifline.getArgument().size()-1);
         lastArg = lastArg.substring(0, lastArg.length()-1);
         lastArg = lastArg+","+hash+")";
@@ -282,8 +317,43 @@ public class Controler {
         modifline.add(lastArg);
         fichier.add(newline);
         fichier.add(modifline);
-        System.out.println(newline.toString());
-        System.out.println(modifline.toString());
+       // System.out.println(newline.toString());
+      //  System.out.println(modifline.toString());
+		 }else{
+			 String id1= tmp.get(0).getArgument().get(0);
+			 String hashRELDEFINES="#"+Integer.toString(maxHashTag(fichier)+2);
+			 String hashPROPERTYSET="#"+Integer.toString(maxHashTag(fichier)+3);
+			 String id1_propertyset = null;
+
+			 ArrayList<String> ArgIFCPROPERTYSET = new ArrayList<String>();
+			 ArrayList<String> ArgIFCRELDEFINES = new ArrayList<String>();
+			 ArgIFCRELDEFINES.add(id1);
+			 ArgIFCRELDEFINES.add("#2");
+			 ArgIFCRELDEFINES.add("$");
+			 ArgIFCRELDEFINES.add("$");
+			 ArgIFCRELDEFINES.add("("+Hstr+")");
+			 ArgIFCRELDEFINES.add(hashPROPERTYSET);
+			 ligneIFC lines_RELDEFINES = new ligneIFC(hashRELDEFINES,"IFCRELDEFINESBYPROPERTIES",ArgIFCRELDEFINES);
+			 
+			 for (ligneIFC e : fichier){
+		        	if (e.getNomFonction().contains("IFCPROPERTYSET")){
+		        		id1_propertyset=e.getArgument().get(0);
+		        		break;
+		        	}
+		        	}
+			 ArgIFCPROPERTYSET.add(id1_propertyset);
+			 ArgIFCPROPERTYSET.add("#2");
+			 ArgIFCPROPERTYSET.add("'Propriete'");
+			 ArgIFCPROPERTYSET.add("$");
+			 ArgIFCPROPERTYSET.add("("+hash+")");
+			 ligneIFC lines_PROPERTYSET= new ligneIFC(hashPROPERTYSET,"IFCPROPERTYSET",ArgIFCPROPERTYSET);
+			 
+			 
+			 fichier.add(lines_RELDEFINES);
+			 fichier.add(lines_PROPERTYSET);
+			 fichier.add(newline);
+
+		 }
 
 		
 	}

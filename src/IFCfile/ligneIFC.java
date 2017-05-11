@@ -35,6 +35,7 @@ public class ligneIFC {
 
 	
 	
+	@SuppressWarnings("resource")
 	public ligneIFC(ArrayList<String> ligne){
 		super();
 		String arg="";

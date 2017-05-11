@@ -10,7 +10,11 @@ import javax.swing.JPanel;
 
 public class ImagePanel extends JPanel{
 
-    private BufferedImage image;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private BufferedImage image;
 
     public ImagePanel(String path ) {
     	super(new BorderLayout());

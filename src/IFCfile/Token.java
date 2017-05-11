@@ -3,7 +3,6 @@ package IFCfile;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -12,6 +11,7 @@ public class Token {
 	ArrayList<String> tokens = new ArrayList<String>();
 	String path = "token_ajout_commentaire/token_function";
 	
+	@SuppressWarnings("resource")
 	public Token() throws IOException{
 		try{
 			String pathFileHasToken = this.path;

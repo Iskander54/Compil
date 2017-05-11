@@ -28,6 +28,10 @@ import Interface.Observer;
 
 public class AccueilView extends ImagePanel implements Observer {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JButton browser = new JButton("Importer le fichier IFC");
 	JButton handwrinting= new JButton("Ecrire Commentaire à la main");
 	Boolean commentManualy = false;
@@ -236,11 +240,11 @@ public class AccueilView extends ImagePanel implements Observer {
 			public void mouseClicked(MouseEvent e){
 				try{
 					
-				//System.out.println(fichier.get(list.getSelectedIndex()).getNomFonction());
-				System.out.println(fichier.get(Controler.indiceligne(tmp,list.getModel().getElementAt(list.getSelectedIndex()))).getNomFonction());
-				System.out.println(Controler.indexcom(listeFacade, list1.getSelectedIndex()-2).getCommentaire());
 				indice=Controler.indiceligne(tmp,list.getModel().getElementAt(list.getSelectedIndex()));
-				Controler.modifIFC2(fichier, listeFacade,Controler.indiceligne(tmp,list.getModel().getElementAt(list.getSelectedIndex())), list1.getSelectedIndex()-2);
+				//System.out.println(fichier.get(indice)+" ca bug ap bro");
+				//System.out.println(Controler.indexcom(listeFacade, list1.getSelectedIndex()-2).getCommentaire());
+				//System.out.println(indice);
+				Controler.modifIFC2(fichier, listeFacade,indice, list1.getSelectedIndex()-2);
 				panGrid.remove(scrollLeft);
 				list.removeAll();
 				list.clearSelection();
@@ -250,7 +254,7 @@ public class AccueilView extends ImagePanel implements Observer {
 					Controler.ecriture(fichier, entete[0],entete[1],path);
 					File IFCfile=new File(path);
 					entete=Controler.readerIFC(fichier, debut, fin,IFCfile );
-					System.out.println(entete[1]+entete[0]);
+					//System.out.println(entete[1]+entete[0]);
 					
 
 					DefaultListModel<String> model = new DefaultListModel<>();
