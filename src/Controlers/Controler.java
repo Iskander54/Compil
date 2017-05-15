@@ -259,7 +259,7 @@ public class Controler {
 		
 	}
 	public static Commentaire indexcom(ArrayList<Facade> listeFacade,int val){
-		int j=0;
+		int j=-1;
 		Commentaire com=null;
 			for(Facade e : listeFacade)
 				for (Commentaire c : e.getListeCommentaires()){
@@ -367,7 +367,8 @@ public class Controler {
 
 		
 	}
-		
+	
+
 	
 
 }

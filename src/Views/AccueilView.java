@@ -54,6 +54,8 @@ public class AccueilView extends ImagePanel implements Observer {
 	ArrayList<Facade> listeFacade = new ArrayList<Facade>();
 	ArrayList<ligneIFC> fichier = new ArrayList<ligneIFC>();
 	ArrayList<String> tmp = new ArrayList<String>();
+	ArrayList<String> tmpcom = new ArrayList<String>();
+
 
 	String debut="";
 	String fin="";
@@ -145,7 +147,7 @@ public class AccueilView extends ImagePanel implements Observer {
 					for(Facade j : listeFacade){
 						model1.addElement("\t\t\t\t\t\t\t\t               		 "+j.getNom());
 						for (Commentaire c : j.getListeCommentaires()){
-							
+							tmpcom.add("\t : " + c.getCommentaire() + " ( "+ c.getPositionX()+ " , " + c.getPositionY() + " )\n");
 
 			            	model1.addElement("\t : " + c.getCommentaire() + " ( "+ c.getPositionX()+ " , " + c.getPositionY() + " )\n");
 						   }
@@ -153,7 +155,7 @@ public class AccueilView extends ImagePanel implements Observer {
 		        }
 
 					list1 = new JList<>( model1 );
-					list1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+					list1.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 					list1.setLayoutOrientation(JList.VERTICAL);
 					list1.setVisibleRowCount(-1);
 					scrollRight = new JScrollPane(list1);
@@ -238,13 +240,25 @@ public class AccueilView extends ImagePanel implements Observer {
 		match.setOpaque(true);
 		match.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e){
+
+
 				try{
 					
 				indice=Controler.indiceligne(tmp,list.getModel().getElementAt(list.getSelectedIndex()));
 				//System.out.println(fichier.get(indice)+" ca bug ap bro");
 				//System.out.println(Controler.indexcom(listeFacade, list1.getSelectedIndex()-2).getCommentaire());
 				//System.out.println(indice);
-				Controler.modifIFC2(fichier, listeFacade,indice, list1.getSelectedIndex()-2);
+				int []com=list1.getSelectedIndices();
+				int indicecom;
+				for(int i=0;i<com.length;i++){
+				System.out.println(com[i]);
+				}
+				for(int i=0;i<com.length;i++){
+
+				indicecom=Controler.indiceligne(tmpcom, list1.getModel().getElementAt(com[i]));
+				System.out.println(indicecom);
+				Controler.modifIFC2(fichier, listeFacade,indice,indicecom);
+				}
 				panGrid.remove(scrollLeft);
 				list.removeAll();
 				list.clearSelection();
@@ -261,9 +275,10 @@ public class AccueilView extends ImagePanel implements Observer {
 
 					
 					Token t = new Token();
-				
+					tmp.clear();
+		
 					for(ligneIFC j : fichier){
-						
+						tmp.add("Fonction : "+j.getNomFonction()+" Arguments :"+j.getArgument());
 						if(t.containToken(j.getNomFonction())){ // PERMET DE VERIFIER SI LA LIGNE POSSEDE UN DES TOKENS
 							model.addElement("Fonction : "+j.getNomFonction()+" Arguments :"+j.getArgument());
 						}
