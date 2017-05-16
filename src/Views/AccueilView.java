@@ -38,6 +38,7 @@ public class AccueilView extends ImagePanel implements Observer {
 	JButton browsercomm = new JButton("Importer les commentaires");
 	JButton reset = new JButton("Reset");
 	JButton match = new JButton("Lier");
+	JButton token = new JButton("Token");
 	JPanel pan = new JPanel(new GridLayout(1,3));
 	JPanel panGrid = new JPanel(new GridLayout(1,2));
 	JPanel bottompan = new JPanel(new GridLayout(1,5));
@@ -65,6 +66,8 @@ public class AccueilView extends ImagePanel implements Observer {
 	JScrollPane scrollLeft;
 	JList<String> list;
 	JList<String> list1;
+	Token t=null;
+
 
 	
 
@@ -77,6 +80,13 @@ public class AccueilView extends ImagePanel implements Observer {
 		browser.setBackground(Color.WHITE);
 		browser.setContentAreaFilled(false);
 		browser.setOpaque(true);
+		try {
+			t = new Token();
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+
 		
 		browser.addMouseListener(new MouseAdapter() {
 			@Override
@@ -86,11 +96,9 @@ public class AccueilView extends ImagePanel implements Observer {
 					File IFCfile= browser("IFC file");
 					path=IFCfile.getAbsolutePath();
 					entete=Controler.readerIFC(fichier, debut, fin, IFCfile);
-					System.out.println(entete[1]+entete[0]);
+					//System.out.println(entete[1]+entete[0]);
 
 					DefaultListModel<String> model = new DefaultListModel<>();
-					
-					Token t = new Token();
 				
 					
 					for(ligneIFC j : fichier){
@@ -110,7 +118,7 @@ public class AccueilView extends ImagePanel implements Observer {
 					scrollLeft = new JScrollPane(list);
 					
 						panGrid.add(scrollLeft,BorderLayout.EAST);
-						System.out.println("all guuuuud");
+						//System.out.println("all guuuuud");
 						update();
 						ifc_file_load++;
 						
@@ -251,12 +259,12 @@ public class AccueilView extends ImagePanel implements Observer {
 				int []com=list1.getSelectedIndices();
 				int indicecom;
 				for(int i=0;i<com.length;i++){
-				System.out.println(com[i]);
+				//System.out.println(com[i]);
 				}
 				for(int i=0;i<com.length;i++){
 
 				indicecom=Controler.indiceligne(tmpcom, list1.getModel().getElementAt(com[i]));
-				System.out.println(indicecom);
+			//	System.out.println(indicecom);
 				Controler.modifIFC2(fichier, listeFacade,indice,indicecom);
 				}
 				panGrid.remove(scrollLeft);
@@ -274,7 +282,13 @@ public class AccueilView extends ImagePanel implements Observer {
 					DefaultListModel<String> model = new DefaultListModel<>();
 
 					
-					Token t = new Token();
+					Token t = null;
+					try {
+						t = new Token();
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					tmp.clear();
 		
 					for(ligneIFC j : fichier){
@@ -307,6 +321,21 @@ public class AccueilView extends ImagePanel implements Observer {
 				
 			}
 		});
+		
+		token.setName("part4");
+		token.setBackground(Color.WHITE);
+		token.setContentAreaFilled(false);
+		token.setOpaque(true);
+		
+		token.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				TokenView f = new TokenView(t);
+				f.update();
+				
+			}
+			});
 	
 		
 
@@ -320,10 +349,12 @@ public class AccueilView extends ImagePanel implements Observer {
 		pan.add(browser);
 		pan.add(browsercomm);
 		pan.add(handwrinting);
+		pan.add(token);
 		add(pan,BorderLayout.NORTH);
 		
 		panGrid.setOpaque(false);
 		add(panGrid,BorderLayout.CENTER);	
+
 
 	}
 	
@@ -338,7 +369,7 @@ public class AccueilView extends ImagePanel implements Observer {
 		int result = fileChooser.showOpenDialog(this.frame);
 		if (result == JFileChooser.APPROVE_OPTION) {
 			selectedFile = fileChooser.getSelectedFile();
-			System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+			//System.out.println("Selected file: " + selectedFile.getAbsolutePath());
 		}
 		return selectedFile;
 	}

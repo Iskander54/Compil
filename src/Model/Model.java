@@ -1,6 +1,5 @@
 package Model;
 
-import java.awt.Color;
 import java.util.ArrayList;
 
 import Interface.Observer;

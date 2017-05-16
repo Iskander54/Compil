@@ -60,6 +60,7 @@ import IFCfile.ligneIFC;
             JTextField textFieldValue = new JTextField(45);
             
             JButton valider = new JButton("Add comment");
+            valider.setSize(50, 50);
             
             frame1.add(pan);
             
@@ -84,7 +85,7 @@ import IFCfile.ligneIFC;
     				String propertyText = textFieldProperty.getText();
     				String valueText = textFieldValue.getText();
     				try {
-    					System.out.println(indice);
+    					//System.out.println(indice);
 						Controler.modifIFCManuellement(fichier, Controler.indiceligne(tmp, list.getModel().getElementAt(list.getSelectedIndex())), propertyText, valueText);
 						Controler.ecriture(fichier, entete[0],entete[1],path);
 						File IFCfile=new File(path);
@@ -102,6 +103,8 @@ import IFCfile.ligneIFC;
     		});
 		    
 		}
+		
+
 		public void update()
 		{
 			frame1.setVisible(true);

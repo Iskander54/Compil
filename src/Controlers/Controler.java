@@ -81,7 +81,7 @@ public class Controler {
         }
 		*/
         String entete[]={debut,fin};
-        System.out.println("Fichier IFC téléchargé avec succès !");
+      //  System.out.println("Fichier IFC téléchargé avec succès !");
         return(entete);
 
        
@@ -143,7 +143,7 @@ public class Controler {
 		   }
 		   */
 		   fichierCSV.close();    
-		   System.out.println("Liste des commentaires téléchargée avec succès !"+"\n");
+		  // System.out.println("Liste des commentaires téléchargée avec succès !"+"\n");
 	
 		
 		
@@ -154,7 +154,12 @@ public class Controler {
         ArrayList<ligneIFC> tmp = new ArrayList<ligneIFC>();
 		String tmp1 = null;
 		ligneIFC modifline=null;
-    	new Token();
+    	try {
+			new Token();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		String Hstr=fichier.get(valIFC).getHashTag();
 		//System.out.println(fichier.get(valIFC).toString());
         
@@ -180,7 +185,7 @@ public class Controler {
 
 	        		if(s.contains("("+Hstr+")")){
 	        			tmp1=l.getArgument().get(l.argument.size()-1);
-	        			System.out.println(tmp1);
+	        			//System.out.println(tmp1);
 	        		}
 	        	}
 	        }
@@ -188,7 +193,7 @@ public class Controler {
 	        for(ligneIFC t : fichier){
 	        	if(t.getHashTag().contains(tmp1)){
 	        		modifline=t;
-	        		System.out.println(modifline);
+	        		//System.out.println(modifline);
 	        	}
 	        }
 
@@ -202,8 +207,8 @@ public class Controler {
         modifline.add(lastArg);
         fichier.add(newline);
         fichier.add(modifline);
-        System.out.println(newline.toString());
-        System.out.println(modifline.toString());
+       // System.out.println(newline.toString());
+      //  System.out.println(modifline.toString());
         
 	 }else{
 		 String id1= tmp.get(0).getArgument().get(0);
@@ -255,7 +260,7 @@ public class Controler {
         }
     	writer.println(fin);
         writer.close();
-        System.out.println("Ecriture dans un new IFC effectué avec un succes certain !"+"\n"+"Le nouveau fichier se situe dans le même dossier que le jar");
+      //  System.out.println("Ecriture dans un new IFC effectué avec un succes certain !"+"\n"+"Le nouveau fichier se situe dans le même dossier que le jar");
 		
 	}
 	public static Commentaire indexcom(ArrayList<Facade> listeFacade,int val){
@@ -278,9 +283,14 @@ public class Controler {
         ArrayList<ligneIFC> tmp = new ArrayList<ligneIFC>();
 		String tmp1 = null;
 		ligneIFC modifline=null;
-    	new Token();
+    	try {
+			new Token();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		String Hstr=fichier.get(valIFC).getHashTag();
-		System.out.println(fichier.get(valIFC).toString());
+		//System.out.println(fichier.get(valIFC).toString());
 		 ArrayList<String> commentaireliste = new ArrayList<String>();
 	        commentaireliste.add("'"+property+"'");
 	        commentaireliste.add("'"+value+"'");
@@ -297,7 +307,7 @@ public class Controler {
 
 	        		if(s.contains("("+Hstr+")")){
 	        			tmp1=l.getArgument().get(l.argument.size()-1);
-	        			System.out.println(tmp1);
+	        			//System.out.println(tmp1);
 	        		}
 	        	}
 	        }

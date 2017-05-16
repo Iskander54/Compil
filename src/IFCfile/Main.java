@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -78,7 +79,7 @@ public class Main {
 	}
 	
 	
-	public static void loader(FileReader ifcpath,String debut,String fin,ArrayList<ligneIFC> fichier ) throws IOException{
+	public static void loader(FileReader ifcpath,String debut,String fin,ArrayList<ligneIFC> fichier ) throws IOException, URISyntaxException{
 
         try {
         	readerIFC(fichier,debut,fin,ifcpath);
@@ -93,7 +94,7 @@ public class Main {
 		
 	}
 	@SuppressWarnings("resource")
-	public static void modifIFC(ArrayList<ligneIFC> fichier) throws IOException{
+	public static void modifIFC(ArrayList<ligneIFC> fichier) throws IOException, URISyntaxException{
         ArrayList<ligneIFC> travail = new ArrayList<ligneIFC>();
 		Scanner sc = new Scanner(System.in);
         ArrayList<ligneIFC> tmp = new ArrayList<ligneIFC>();
@@ -193,7 +194,7 @@ public class Main {
 	}
 	
 	@SuppressWarnings("resource")
-	public static void modifIFC2(ArrayList<ligneIFC> fichier,ArrayList<Facade> listeFacade) throws IOException{
+	public static void modifIFC2(ArrayList<ligneIFC> fichier,ArrayList<Facade> listeFacade) throws IOException, URISyntaxException{
         ArrayList<ligneIFC> travail = new ArrayList<ligneIFC>();
 		Scanner sc = new Scanner(System.in);
         ArrayList<ligneIFC> tmp = new ArrayList<ligneIFC>();
