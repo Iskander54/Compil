@@ -44,7 +44,7 @@ import IFCfile.ligneIFC;
 			
 			
             frame1.setLocationRelativeTo(null);
-            frame1.setTitle("Beta Test");
+            frame1.setTitle("Ecriture à la main");
             frame1.setVisible(true);
             frame1.setSize(550, 160);
             
@@ -53,13 +53,13 @@ import IFCfile.ligneIFC;
             
             JPanel pan = new JPanel();
             
-            JLabel prop = new JLabel("Property");
+            JLabel prop = new JLabel("Propriété");
             JTextField textFieldProperty = new JTextField(45);
             
-            JLabel val = new JLabel("Value");
+            JLabel val = new JLabel("Valeur");
             JTextField textFieldValue = new JTextField(45);
             
-            JButton valider = new JButton("Add comment");
+            JButton valider = new JButton("Lier Commentaire");
             valider.setSize(50, 50);
             
             frame1.add(pan);

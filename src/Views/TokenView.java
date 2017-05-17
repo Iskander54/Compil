@@ -29,7 +29,7 @@ public class TokenView {
 	public TokenView(Token token) throws IOException{
 		
         frame1.setLocationRelativeTo(null);
-        frame1.setTitle("Token Handler");
+        frame1.setTitle("Gestionnaire des Token");
         frame1.setVisible(true);
         frame1.setSize(500, 300);
         token.chargingTokens();
