@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
@@ -25,12 +26,13 @@ public class TokenView {
 
 
 	
-	public TokenView(Token token){
+	public TokenView(Token token) throws IOException{
 		
         frame1.setLocationRelativeTo(null);
-        frame1.setTitle("Beta Test");
+        frame1.setTitle("Token Handler");
         frame1.setVisible(true);
         frame1.setSize(500, 300);
+        token.chargingTokens();
         ArrayList<String> tokens = token.getTokens();
 
         
@@ -68,6 +70,12 @@ public class TokenView {
     					tokens.remove(model.getElementAt(indice[i]));
     				}
     				load(token.getTokens());
+    				try {
+						token.updateFile();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
     				update();
     				
     			}
@@ -77,6 +85,12 @@ public class TokenView {
     			public void mouseClicked(MouseEvent e) {
     				tokens.add(textFieldProperty.getText());
     				load(token.getTokens());
+    				try {
+						token.updateFile();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
     				update();
     			}
 	        });

@@ -80,12 +80,7 @@ public class AccueilView extends ImagePanel implements Observer {
 		browser.setBackground(Color.WHITE);
 		browser.setContentAreaFilled(false);
 		browser.setOpaque(true);
-		try {
-			t = new Token();
-		} catch (IOException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
+		t = new Token();
 
 		
 		browser.addMouseListener(new MouseAdapter() {
@@ -331,8 +326,15 @@ public class AccueilView extends ImagePanel implements Observer {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				TokenView f = new TokenView(t);
-				f.update();
+				TokenView f;
+				try {
+					f = new TokenView(t);
+					f.update();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 				
 			}
 			});
