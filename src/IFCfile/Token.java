@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class Token {
 	
-	String path = "token_ajout_commentaire/token_function";
+	String path = "./token_ajout_commentaire/token_function";
 	ArrayList<String> tokens = new ArrayList<String>();
 	
 	public ArrayList<String> getTokens() {

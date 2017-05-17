@@ -81,6 +81,13 @@ public class AccueilView extends ImagePanel implements Observer {
 		browser.setContentAreaFilled(false);
 		browser.setOpaque(true);
 		t = new Token();
+        try {
+			t.chargingTokens();
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+
 
 		
 		browser.addMouseListener(new MouseAdapter() {
