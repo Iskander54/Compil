@@ -32,7 +32,7 @@ public class TokenView {
         frame1.setTitle("Gestionnaire des Token");
         frame1.setVisible(true);
         frame1.setSize(500, 300);
-        System.out.println(token.getTokens());
+        //System.out.println(token.getTokens());
         ArrayList<String> tokens = token.getTokens();
 
         

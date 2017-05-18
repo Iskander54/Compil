@@ -2,11 +2,9 @@ package IFCfile;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class Token {
@@ -48,6 +46,7 @@ public class Token {
 	}
 	
 	
+	@SuppressWarnings("resource")
 	public void chargingTokens() throws IOException{
 		try{
 			String pathFileHasToken = this.path;
