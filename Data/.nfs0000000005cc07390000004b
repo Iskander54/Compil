@@ -54,7 +54,6 @@ DATA;
 #27 = IFCRELCONTAINEDINSPATIALSTRUCTURE('3P8Od4qJPBkAz5KGlpzLPL', #2, 'BuildingStoreyContainer', 'BuildingStoreyContainer for Building Elements', (#28, #1150), #22);
 #28 = IFCWALLSTANDARDCASE('3vB2YO$MX4xv5uCqZZG05x', #2, 'Fa�ade Nord', 'Niveau mur+geometrie', $, #30, #29, $);
 #29 = IFCPRODUCTDEFINITIONSHAPE('', '', (#35 ));
-#115 = IFCPROPERTYSET('18RtPv6efDwuUOMduCZ7rH', #2, 'Proprietes du mur ', $, (#116, #117));
 #116 = IFCPROPERTYSINGLEVALUE('Materiau', 'Materiau', IFCTEXT('Brique'), $);
 #117 = IFCPROPERTYSINGLEVALUE('Planeite(mm)', 'Planeite(mm)', IFCREAL(5.0), $);
 #119 = IFCRELDEFINESBYPROPERTIES('3IxFuNHRvBDfMT6_FiWPEz', #2, $, $, (#28), #115);
@@ -161,8 +160,12 @@ DATA;
 #1258 = IFCPROPERTYSINGLEVALUE('Repositionner la gouttière après chantier', 'Repositionner la gouttière après chantier', IFCTEXT('Repositionner la gouttière après chantier'));
 #1259 = IFCPROPERTYSINGLEVALUE('A supprimer', 'A supprimer', IFCTEXT('A supprimer'));
 #1260 = IFCPROPERTYSINGLEVALUE('Ne pas conserver les barreaux', 'Ne pas conserver les barreaux', IFCTEXT('Ne pas conserver les barreaux'));
-#1261 = IFCPROPERTYSINGLEVALUE('test', 'test', IFCTEXT('test'));
-#1254 = IFCPROPERTYSET('18RtPv6efDwuUOMduCZ7rF', #2, 'Propriete', $, (#1252, #1255, #1256, #1257, #1258, #1259, #1260,#1261));
+#1254 = IFCPROPERTYSET('18RtPv6efDwuUOMduCZ7rF', #2, 'Propriete', $, (#1252, #1255, #1256, #1257, #1258, #1259, #1260));
+#1261 = IFCPROPERTYSINGLEVALUE('Prévoir de remettre un luminaire par la suite', 'Prévoir de remettre un luminaire par la suite', IFCTEXT('Prévoir de remettre un luminaire par la suite'));
+#1262 = IFCPROPERTYSINGLEVALUE('Repositionner la gouttière après travaux', 'Repositionner la gouttière après travaux', IFCTEXT('Repositionner la gouttière après travaux'));
+#1263 = IFCPROPERTYSINGLEVALUE('Repositionner la gouttière après chantier', 'Repositionner la gouttière après chantier', IFCTEXT('Repositionner la gouttière après chantier'));
+#1264 = IFCPROPERTYSINGLEVALUE('Ne pas conserver les barreaux', 'Ne pas conserver les barreaux', IFCTEXT('Ne pas conserver les barreaux'));
+#115 = IFCPROPERTYSET('18RtPv6efDwuUOMduCZ7rH', #2, 'Proprietes du mur ', $, (#116, #117,#1261,#1262,#1263,#1264));
 
 
 
